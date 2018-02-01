@@ -1,0 +1,81 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="250dp"
+    android:layout_height="match_parent"
+    >
+
+    <ImageView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:scaleType="centerCrop"
+        android:src="@mipmap/drawer_bg" />
+
+    <ImageView
+        android:id="@+id/drawerAvtar"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:layout_marginLeft="20dp"
+        android:layout_marginTop="40dp"
+        android:src="@mipmap/avtar" />
+
+
+    <TextView
+        android:id="@+id/drawerNick"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBottom="@id/drawerAvtar"
+        android:layout_alignTop="@id/drawerAvtar"
+        android:layout_marginLeft="20dp"
+        android:layout_toRightOf="@id/drawerAvtar"
+        android:gravity="center"
+        android:text="码农弟弟"
+        android:textColor="#171717"
+        android:textSize="16dp" />
+
+    <TextView
+        android:id="@+id/drawerSign"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@id/drawerAvtar"
+        android:layout_below="@id/drawerAvtar"
+        android:layout_marginTop="8dp"
+        android:text="这个人很懒,什么都没留下"
+        android:textColor="#999999"
+        android:textSize="16dp" />
+
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/menuRecyclerView"
+        android:layout_marginTop="40dp"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@id/drawerSign"
+        android:layout_marginBottom="40dp" />
+
+    <TextView
+        android:id="@+id/config"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_marginBottom="10dp"
+        android:layout_marginLeft="20dp"
+        android:drawableLeft="@mipmap/config"
+        android:drawablePadding="5dp"
+        android:text="设置"
+        android:textColor="#ffffff"
+        android:textSize="16dp" />
+
+    <TextView
+        android:id="@+id/about"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentRight="true"
+        android:layout_marginBottom="10dp"
+        android:layout_marginRight="30dp"
+        android:drawableLeft="@mipmap/about"
+        android:drawablePadding="5dp"
+        android:text="关于"
+        android:textColor="#ffffff"
+        android:textSize="16dp" />
+</RelativeLayout>

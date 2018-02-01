@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="#e8e8e8">
+
+    <android.support.v7.widget.CardView
+
+        android:layout_width="match_parent"
+        android:layout_height="130dp"
+        android:layout_marginBottom="10dp"
+        android:layout_marginLeft="15dp"
+        android:layout_marginRight="15dp"
+        android:layout_marginTop="8dp"
+        app:cardCornerRadius="8dp"
+        app:cardElevation="5dp">
+
+        <android.support.constraint.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <ImageView
+                android:id="@+id/pic"
+                android:layout_width="90dp"
+                android:layout_height="match_parent"
+                android:scaleType="centerCrop"
+                android:src="@mipmap/default_competition" />
+
+            <ImageView
+                android:id="@+id/label"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginRight="15dp"
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:srcCompat="@mipmap/label_competition" />
+
+            <TextView
+                android:id="@+id/title"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="15dp"
+                android:layout_marginTop="10dp"
+                android:singleLine="true"
+                android:text="第十一届大学生运动会"
+                android:textColor="#171717"
+                android:textSize="16dp"
+                app:layout_constraintLeft_toRightOf="@id/pic"
+                app:layout_constraintRight_toLeftOf="@id/label"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <TextView
+                android:id="@+id/date"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="2017/01/12"
+                android:textSize="12dp"
+                android:layout_marginTop="10dp"
+                app:layout_constraintLeft_toLeftOf="@id/title"
+                app:layout_constraintTop_toBottomOf="@id/title"
+                />
+
+            <TextView
+                android:id="@+id/status"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="报名中"
+                android:layout_marginRight="10dp"
+                android:textSize="12dp"
+                android:textColor="#ffa126"
+                app:layout_constraintTop_toTopOf="@id/date"
+                app:layout_constraintRight_toRightOf="parent"
+                />
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                android:maxLines="3"
+                android:text="全国中学生运动会是教育部、国家体育总局和共青团中央共同主办的综合性运动会，每3年举办一届。第十一届全国中运会将于2011年7月16日至21日在包头市举行，设有田径、篮球、排球、足球、乒乓球、游泳、武术、健美操和毽球9个比赛项目。届时将有来自全国的34个代表团、约5000名运动员和裁判员参赛。"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintLeft_toRightOf="@id/pic"
+                android:layout_marginTop="10dp"
+                android:layout_marginLeft="15dp"
+                android:layout_marginRight="10dp"
+                android:textSize="14dp"
+                android:textColor="#999999"
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/date" />
+        </android.support.constraint.ConstraintLayout>
+    </android.support.v7.widget.CardView>
+
+</FrameLayout>
