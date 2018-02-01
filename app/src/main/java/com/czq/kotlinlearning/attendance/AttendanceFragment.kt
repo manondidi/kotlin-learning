@@ -5,6 +5,7 @@ import android.os.Bundle
 import android.support.v4.app.Fragment
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -24,6 +25,8 @@ import kotlinx.android.synthetic.main.fragment_attendance.*
 class AttendanceFragment : Fragment() {
 
 
+    var totalDy = 0
+    var isScrollToTop=false
     override fun onViewCreated(view: View?, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         var adapter = AttendanceAdapter()
@@ -33,19 +36,31 @@ class AttendanceFragment : Fragment() {
             override fun onScrollStateChanged(recyclerView: RecyclerView?, newState: Int) {
                 super.onScrollStateChanged(recyclerView, newState)
 
-
                 if (newState == RecyclerView.SCROLL_STATE_SETTLING) {
                     val intent = Intent()
                     intent.action = "com.czq.kotlinlearning.mainTop"
-                    if (getScollYDistance(recyclerView!!) >DensityUtil.dp2px(activity, 60.0f)) {
+                    intent.putExtra("from","attend")
+                    if (isScrollToTop) {
                         intent.putExtra("toTop", true)
-                    } else {
+                        activity.sendBroadcast(intent)
+
+                        Log.d("attend-onScrolled",""+totalDy+"    "+isScrollToTop)
+                    } else  if (totalDy >DensityUtil.dp2px(activity, -60.0f)&&!isScrollToTop){
                         intent.putExtra("toTop", false)
                         adapter.lastPosition=0
+                        activity.sendBroadcast(intent)
+
+                        Log.d("attend-onScrolled",""+totalDy+"    "+isScrollToTop)
                     }
-                    activity.sendBroadcast(intent)
+
                 }
 
+            }
+            override fun onScrolled(recyclerView: RecyclerView?, dx: Int, dy: Int) {
+                super.onScrolled(recyclerView, dx, dy)
+                var oldTotalDy=totalDy
+                totalDy-=dy
+                isScrollToTop=oldTotalDy>totalDy
             }
 
         })

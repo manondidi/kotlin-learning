@@ -6,14 +6,13 @@ import android.support.v4.app.Fragment
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
 import android.support.v7.widget.RecyclerView.SCROLL_STATE_SETTLING
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import com.czq.kotlinlearning.R
 import com.czq.kotlinlearning.util.DensityUtil
 import kotlinx.android.synthetic.main.fragment_msg.*
-
-
 
 
 /**
@@ -26,6 +25,8 @@ import kotlinx.android.synthetic.main.fragment_msg.*
  */
 class MsgFragment : Fragment() {
 
+    var totalDy = 0
+    var isScrollToTop = false
 
     override fun onViewCreated(view: View?, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -40,14 +41,29 @@ class MsgFragment : Fragment() {
                 if (newState == SCROLL_STATE_SETTLING) {
                     val intent = Intent()
                     intent.action = "com.czq.kotlinlearning.mainTop"
-                    if (getScollYDistance(recyclerView!!) > DensityUtil.dp2px(activity, 60.0f)) {
+                    intent.putExtra("from","msg")
+                    if (isScrollToTop ) {
                         intent.putExtra("toTop", true)
-                    } else {
+                        activity.sendBroadcast(intent)
+
+                        Log.d("msg-onScrolled", "" + totalDy + "    " + isScrollToTop)
+                    } else if (totalDy > DensityUtil.dp2px(activity, -60.0f) && !isScrollToTop) {
                         intent.putExtra("toTop", false)
-                        adapter.lastPosition=0
+                        adapter.lastPosition = 0
+                        activity.sendBroadcast(intent)
+
+                        Log.d("msg-onScrolled", "" + totalDy + "    " + isScrollToTop)
                     }
-                    activity.sendBroadcast(intent)
+
                 }
+
+            }
+
+            override fun onScrolled(recyclerView: RecyclerView?, dx: Int, dy: Int) {
+                super.onScrolled(recyclerView, dx, dy)
+                var oldTotalDy = totalDy
+                totalDy -= dy
+                isScrollToTop = oldTotalDy > totalDy
 
             }
 
@@ -55,14 +71,6 @@ class MsgFragment : Fragment() {
 
     }
 
-
-    fun getScollYDistance(recyclerView:RecyclerView): Int {
-        val layoutManager:LinearLayoutManager = recyclerView.getLayoutManager() as LinearLayoutManager
-        val position = layoutManager.findFirstVisibleItemPosition()
-        val firstVisiableChildView = layoutManager.findViewByPosition(position)
-        val itemHeight = firstVisiableChildView.height
-        return position * itemHeight - firstVisiableChildView.top
-    }
 
     override fun onCreateView(inflater: LayoutInflater?, container: ViewGroup?,
                               savedInstanceState: Bundle?): View? {

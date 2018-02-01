@@ -5,12 +5,13 @@ import android.os.Bundle
 import android.support.v4.app.Fragment
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import com.czq.kotlinlearning.R
 import com.czq.kotlinlearning.msg.CompetitionAdapter
-import com.czq.kotlinlearning.util.DensityUtil.Companion.dp2px
+import com.czq.kotlinlearning.util.DensityUtil
 import kotlinx.android.synthetic.main.fragment_competition.*
 
 /**
@@ -23,6 +24,8 @@ import kotlinx.android.synthetic.main.fragment_competition.*
  */
 class CompetitionFragment : Fragment() {
 
+    var totalDy = 0
+    var isScrollToTop=false
 
     override fun onViewCreated(view: View?, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -36,16 +39,29 @@ class CompetitionFragment : Fragment() {
 
                 if (newState == RecyclerView.SCROLL_STATE_SETTLING) {
                     val intent = Intent()
+                    intent.putExtra("from","competition")
                     intent.action = "com.czq.kotlinlearning.mainTop"
-                    if (getScollYDistance(recyclerView!!) > dp2px(activity,60.0f)) {
+                    if (isScrollToTop) {
                         intent.putExtra("toTop", true)
-                    } else {
+                        activity.sendBroadcast(intent)
+
+                        Log.d("competition-onScrolled",""+totalDy+"    "+isScrollToTop)
+                    } else  if (totalDy >DensityUtil.dp2px(activity, -60.0f)&&!isScrollToTop){
                         intent.putExtra("toTop", false)
                         adapter.lastPosition=0
+                        activity.sendBroadcast(intent)
+
+                        Log.d("competition-onScrolled",""+totalDy+"    "+isScrollToTop)
                     }
-                    activity.sendBroadcast(intent)
+
                 }
 
+            }
+            override fun onScrolled(recyclerView: RecyclerView?, dx: Int, dy: Int) {
+                super.onScrolled(recyclerView, dx, dy)
+                var oldTotalDy=totalDy
+                totalDy-=dy
+                isScrollToTop=oldTotalDy>totalDy
             }
 
         })

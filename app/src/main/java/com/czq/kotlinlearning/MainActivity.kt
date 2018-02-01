@@ -12,6 +12,7 @@ import android.support.v4.app.Fragment
 import android.support.v4.app.FragmentStatePagerAdapter
 import android.support.v4.view.ViewPager
 import android.support.v7.app.AppCompatActivity
+import android.util.Log
 import android.view.Gravity
 import android.view.View
 import android.view.ViewGroup
@@ -85,9 +86,9 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
                     })
                     va.start()
 
-                } else if (dp2px(this@MainActivity, 100.0f) == containLp.height) {
-
-
+                } else if (!intent!!.getBooleanExtra("toTop", false) &&dp2px(this@MainActivity, 100.0f) == containLp.height) {
+                   var from= intent.getStringExtra("from")
+                    Log.d("onScrolled", "from" + from)
                     var va: ValueAnimator = ValueAnimator.ofInt(dp2px(this@MainActivity, 100.0f), oldContainHeight)
                     va.duration = 200
                     va.addUpdateListener(object : ValueAnimator.AnimatorUpdateListener {
