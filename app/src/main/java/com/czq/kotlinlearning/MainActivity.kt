@@ -47,17 +47,12 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
         val menuParams = MenuParams()
         menuParams.menuObjects = getMenuObjects()
         menuParams.isClosableOutside = true
-        menuParams.actionBarSize = dp2px(this@MainActivity,60.0f)
+        menuParams.actionBarSize = dp2px(this@MainActivity, 60.0f)
         mMenuDialogFragment = ContextMenuDialogFragment.newInstance(menuParams)
-
         mainTopBroadcastReceiver = (object : BroadcastReceiver() {
             override fun onReceive(p0: Context?, intent: Intent?) {
-
                 var containLp: ViewGroup.LayoutParams = contain.layoutParams
                 if (intent!!.getBooleanExtra("toTop", false) && oldContainHeight == containLp.height) {
-
-
-
                     var va: ValueAnimator = ValueAnimator.ofInt(oldContainHeight, dp2px(this@MainActivity, 100.0f))
                     va.duration = 200
                     va.addUpdateListener(object : ValueAnimator.AnimatorUpdateListener {
@@ -86,8 +81,8 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
                     })
                     va.start()
 
-                } else if (!intent!!.getBooleanExtra("toTop", false) &&dp2px(this@MainActivity, 100.0f) == containLp.height) {
-                   var from= intent.getStringExtra("from")
+                } else if (!intent!!.getBooleanExtra("toTop", false) && dp2px(this@MainActivity, 100.0f) == containLp.height) {
+                    var from = intent.getStringExtra("from")
                     Log.d("onScrolled", "from" + from)
                     var va: ValueAnimator = ValueAnimator.ofInt(dp2px(this@MainActivity, 100.0f), oldContainHeight)
                     va.duration = 200
@@ -203,7 +198,6 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
         drawer.setScrimColor(Color.TRANSPARENT)
 
 
-
     }
 
     private fun getMenuObjects(): MutableList<MenuObject>? {
@@ -280,7 +274,7 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
 
             competition -> viewPager.currentItem = 2
 
-            avtar->{
+            avtar -> {
                 drawer.openDrawer(Gravity.LEFT)
             }
             order -> {

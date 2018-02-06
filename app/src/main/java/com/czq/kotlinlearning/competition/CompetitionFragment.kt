@@ -68,13 +68,6 @@ class CompetitionFragment : Fragment() {
 
     }
 
-    fun getScollYDistance(recyclerView:RecyclerView): Int {
-        val layoutManager:LinearLayoutManager = recyclerView.getLayoutManager() as LinearLayoutManager
-        val position = layoutManager.findFirstVisibleItemPosition()
-        val firstVisiableChildView = layoutManager.findViewByPosition(position)
-        val itemHeight = firstVisiableChildView.height
-        return position * itemHeight - firstVisiableChildView.top
-    }
 
 
     override fun onCreateView(inflater: LayoutInflater?, container: ViewGroup?,
