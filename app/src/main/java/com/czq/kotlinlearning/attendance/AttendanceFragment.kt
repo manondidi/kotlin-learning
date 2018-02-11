@@ -1,28 +1,16 @@
 package com.czq.kotlinlearning.attendance
 
-import android.content.Intent
 import android.os.Bundle
 import android.support.v4.app.Fragment
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import com.czq.kotlinlearning.HomeScrollerCalculator
 import com.czq.kotlinlearning.R
 import com.czq.kotlinlearning.msg.AttendanceAdapter
-import com.czq.kotlinlearning.util.DensityUtil
 import kotlinx.android.synthetic.main.fragment_attendance.*
-
-/**
- * A simple [Fragment] subclass.
- * Activities that contain this fragment must implement the
- * [AttendanceFragment.OnFragmentInteractionListener] interface
- * to handle interaction events.
- * Use the [AttendanceFragment.newInstance] factory method to
- * create an instance of this fragment.
- */
 class AttendanceFragment : Fragment() {
 
     val mHomeScrollerCalculator= HomeScrollerCalculator()

@@ -65,7 +65,6 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
         hamburg.setOnClickListener(this)
         avtar.setOnClickListener(this)
         msg.setImageResource(R.mipmap.msg_sel)
-
         msg.setOnClickListener(this)
         attendance.setOnClickListener(this)
         competition.setOnClickListener(this)
@@ -96,8 +95,6 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
 
             override fun onPageSelected(position: Int) {
                 super.onPageSelected(position)
-
-
                 msg.setImageResource(R.mipmap.msg_unsel)
                 attendance.setImageResource(R.mipmap.attendance_unsel)
                 competition.setImageResource(R.mipmap.competition_unsel)
@@ -141,30 +138,18 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
     //右上角菜单数据源
     private fun getMenuObjects(): MutableList<MenuObject>? {
         var list: MutableList<MenuObject> = mutableListOf()
-
         var close = MenuObject()
         close.resource = R.mipmap.close
-
-
         var qrCode = MenuObject("二维码")
         qrCode.resource = R.mipmap.qr_code
-
-
         var scan = MenuObject("扫一扫")
         scan.resource = R.mipmap.scan
-
-
         var askLeave = MenuObject("请假申请")
         askLeave.resource = R.mipmap.ask_leave
-
-
         var orderMeet = MenuObject("访问预约")
         orderMeet.resource = R.mipmap.order_meet
-
         var help = MenuObject("帮助")
         help.resource = R.mipmap.help
-
-
         list.add(close)
         list.add(qrCode)
         list.add(scan)
@@ -172,8 +157,6 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
         list.add(orderMeet)
         list.add(help)
         return list
-
-
     }
 
 
@@ -255,8 +238,6 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
                 order.isSelected = false
                 order.setImageResource(R.mipmap.order_unsel)
                 if (other.isSelected) {
-
-
                     other.setImageResource(R.mipmap.other_sel)
                     subRow2.visibility = View.VISIBLE
                     subRow1.visibility = View.INVISIBLE
