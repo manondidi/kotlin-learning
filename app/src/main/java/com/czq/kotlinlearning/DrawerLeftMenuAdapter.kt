@@ -18,6 +18,9 @@ class DrawerLeftMenuAdapter : RecyclerView.Adapter<DrawerLeftMenuAdapter.ViewHod
     override fun onBindViewHolder(holder: ViewHodler, position: Int) {
 
         holder.setData(list!![position])
+        holder.itemView.setOnClickListener({
+            //do nothing
+        })
 
     }
 

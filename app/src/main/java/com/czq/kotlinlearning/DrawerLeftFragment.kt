@@ -18,6 +18,7 @@ class DrawerLeftFragment : Fragment() {
 
     var adapter: DrawerLeftMenuAdapter? = null
 
+
     override fun onViewCreated(view: View?, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         menuRecyclerView.layoutManager = LinearLayoutManager(activity)

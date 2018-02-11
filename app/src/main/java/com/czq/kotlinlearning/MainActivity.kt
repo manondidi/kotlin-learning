@@ -35,93 +35,47 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
 
     var mainTopBroadcastReceiver: BroadcastReceiver? = null
     var mImmersionBar: ImmersionBar? = null
-
     var oldContainHeight: Int = 0
     var mMenuDialogFragment: ContextMenuDialogFragment? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
-
+        registerBoardCastReceiver()
+        initContextMenu()
         oldContainHeight = contain.layoutParams.height
-        val menuParams = MenuParams()
-        menuParams.menuObjects = getMenuObjects()
-        menuParams.isClosableOutside = true
-        menuParams.actionBarSize = dp2px(this@MainActivity, 60.0f)
-        mMenuDialogFragment = ContextMenuDialogFragment.newInstance(menuParams)
-        mainTopBroadcastReceiver = (object : BroadcastReceiver() {
-            override fun onReceive(p0: Context?, intent: Intent?) {
-                var containLp: ViewGroup.LayoutParams = contain.layoutParams
-                if (intent!!.getBooleanExtra("toTop", false) && oldContainHeight == containLp.height) {
-                    var va: ValueAnimator = ValueAnimator.ofInt(oldContainHeight, dp2px(this@MainActivity, 100.0f))
-                    va.duration = 200
-                    va.addUpdateListener(object : ValueAnimator.AnimatorUpdateListener {
-                        override fun onAnimationUpdate(p0: ValueAnimator?) {
-                            containLp.height = p0!!.animatedValue as Int
-                            contain.layoutParams = containLp
-                        }
-                    })
-                    va.addListener(object : Animator.AnimatorListener {
-                        override fun onAnimationEnd(p0: Animator?) {
-
-                            realTitle.visibility = View.VISIBLE
-                        }
-
-                        override fun onAnimationRepeat(p0: Animator?) {
-                        }
-
-                        override fun onAnimationCancel(p0: Animator?) {
-                        }
-
-                        override fun onAnimationStart(p0: Animator?) {
-
-                            coverBg.visibility = View.VISIBLE
-
-                        }
-                    })
-                    va.start()
-
-                } else if (!intent!!.getBooleanExtra("toTop", false) && dp2px(this@MainActivity, 100.0f) == containLp.height) {
-                    var from = intent.getStringExtra("from")
-                    Log.d("onScrolled", "from" + from)
-                    var va: ValueAnimator = ValueAnimator.ofInt(dp2px(this@MainActivity, 100.0f), oldContainHeight)
-                    va.duration = 200
-                    va.addUpdateListener(object : ValueAnimator.AnimatorUpdateListener {
-                        override fun onAnimationUpdate(p0: ValueAnimator?) {
-                            containLp.height = p0!!.animatedValue as Int
-                            contain.layoutParams = containLp
-                        }
-                    })
-                    va.addListener(object : Animator.AnimatorListener {
-                        override fun onAnimationEnd(p0: Animator?) {
-                            coverBg.visibility = View.GONE
-                        }
-
-                        override fun onAnimationRepeat(p0: Animator?) {
-                        }
-
-                        override fun onAnimationCancel(p0: Animator?) {
-                        }
-
-                        override fun onAnimationStart(p0: Animator?) {
-
-                            realTitle.visibility = View.GONE
-
-                        }
-                    })
-                    va.start()
-                }
-
-            }
-
-        })
-
-        val intentFilter = IntentFilter()
-        intentFilter.addAction("com.czq.kotlinlearning.mainTop")
-        registerReceiver(mainTopBroadcastReceiver, intentFilter)
-
         mImmersionBar = ImmersionBar.with(this)
         mImmersionBar?.init()
+
+        initViewPager()
+        //这里要先渲染出他的大小 否则在移动的时候会计算错误
+        msg.viewTreeObserver.addOnPreDrawListener(object : ViewTreeObserver.OnPreDrawListener {
+            override fun onPreDraw(): Boolean {
+                msg.viewTreeObserver.removeOnPreDrawListener(this)
+                setIndctorMargin(dp2px(this@MainActivity, 32.0f) - getScreenWidth() / 2 - msg.measuredWidth * 2)
+                return true
+            }
+        })
+
+        realTitle.text = "消息通知"
+        realTitle.visibility = View.GONE
+
+        order.setOnClickListener(this)
+        other.setOnClickListener(this)
+        hamburg.setOnClickListener(this)
+        avtar.setOnClickListener(this)
+        msg.setImageResource(R.mipmap.msg_sel)
+
+        msg.setOnClickListener(this)
+        attendance.setOnClickListener(this)
+        competition.setOnClickListener(this)
+
+        drawer.setScrimColor(Color.TRANSPARENT)
+
+
+    }
+
+    fun initViewPager() {
         viewPager.adapter = object : FragmentStatePagerAdapter(supportFragmentManager) {
             override fun getItem(position: Int): Fragment {
 
@@ -137,25 +91,7 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
             override fun getCount(): Int = 3
 
         }
-
-        msg.viewTreeObserver.addOnPreDrawListener(object : ViewTreeObserver.OnPreDrawListener {
-            override fun onPreDraw(): Boolean {
-                msg.viewTreeObserver.removeOnPreDrawListener(this)
-                setIndctorMargin(dp2px(this@MainActivity, 32.0f) - getScreenWidth() / 2 - msg.measuredWidth * 2)
-                return true
-            }
-        })
-
-
-        order.setOnClickListener(this)
-        other.setOnClickListener(this)
-        hamburg.setOnClickListener(this)
-        avtar.setOnClickListener(this)
-
         viewPager.currentItem = 0
-        realTitle.text = "消息通知"
-        realTitle.visibility = View.GONE
-        msg.setImageResource(R.mipmap.msg_sel)
         viewPager.addOnPageChangeListener(object : ViewPager.SimpleOnPageChangeListener() {
 
             override fun onPageSelected(position: Int) {
@@ -191,15 +127,18 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
             }
 
         })
-        msg.setOnClickListener(this)
-        attendance.setOnClickListener(this)
-        competition.setOnClickListener(this)
-
-        drawer.setScrimColor(Color.TRANSPARENT)
-
-
     }
 
+    fun initContextMenu() {
+
+        val menuParams = MenuParams()
+        menuParams.menuObjects = getMenuObjects()
+        menuParams.isClosableOutside = true
+        menuParams.actionBarSize = dp2px(this@MainActivity, 60.0f)
+        mMenuDialogFragment = ContextMenuDialogFragment.newInstance(menuParams)
+    }
+
+    //右上角菜单数据源
     private fun getMenuObjects(): MutableList<MenuObject>? {
         var list: MutableList<MenuObject> = mutableListOf()
 
@@ -241,9 +180,7 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
     fun getScreenWidth(): Int {
         val resources = this.resources
         val dm = resources.displayMetrics
-//        val density = dm.density
         val width = dm.widthPixels
-//        val height = dm.heightPixels
         return width
     }
 
@@ -251,12 +188,10 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
         var lp: RelativeLayout.LayoutParams = indctor.layoutParams as RelativeLayout.LayoutParams
         var va: ValueAnimator = ValueAnimator.ofInt(lp.leftMargin, marginLeft)
         va.duration = 200
-        va.addUpdateListener(object : ValueAnimator.AnimatorUpdateListener {
-            override fun onAnimationUpdate(p0: ValueAnimator?) {
-                lp.leftMargin = p0!!.animatedValue as Int
-                indctor.layoutParams = lp
-            }
-        })
+        va.addUpdateListener { p0 ->
+            lp.leftMargin = p0!!.animatedValue as Int
+            indctor.layoutParams = lp
+        }
         va.start()
 
 
@@ -274,9 +209,9 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
 
             competition -> viewPager.currentItem = 2
 
-            avtar -> {
+            avtar ->
                 drawer.openDrawer(Gravity.LEFT)
-            }
+
             order -> {
 
                 order.isSelected = !order.isSelected
@@ -353,6 +288,8 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
 
     }
 
+
+    //处理中间tab子菜单的展示
     fun openSubRow() {
 
 
@@ -368,15 +305,12 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
 
             var va: ValueAnimator = ValueAnimator.ofInt(px2dp(this, subLp.height.toFloat()), 0)
             va.duration = 200
-            va.addUpdateListener(object : ValueAnimator.AnimatorUpdateListener {
-                override fun onAnimationUpdate(p0: ValueAnimator?) {
-
-                    subLp.height = dp2px(this@MainActivity, 1.0f * p0!!.animatedValue as Int)
-                    containLp.height = dp2px(this@MainActivity, (260.0f + p0.animatedValue as Int))
-                    sub.layoutParams = subLp
-                    contain.layoutParams = containLp
-                }
-            })
+            va.addUpdateListener { p0 ->
+                subLp.height = dp2px(this@MainActivity, 1.0f * p0!!.animatedValue as Int)
+                containLp.height = dp2px(this@MainActivity, (260.0f + p0.animatedValue as Int))
+                sub.layoutParams = subLp
+                contain.layoutParams = containLp
+            }
             va.addListener(object : Animator.AnimatorListener {
                 override fun onAnimationEnd(p0: Animator?) {
                     oldContainHeight = containLp.height
@@ -401,17 +335,12 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
             indctorSub.visibility = View.VISIBLE
             var va: ValueAnimator = ValueAnimator.ofInt(px2dp(this, subLp.height.toFloat()), 60)
             va.duration = 200
-            va.addUpdateListener(object : ValueAnimator.AnimatorUpdateListener {
-                override fun onAnimationUpdate(p0: ValueAnimator?) {
-
-                    subLp.height = dp2px(this@MainActivity, 1.0f * p0!!.animatedValue as Int)
-                    containLp.height = dp2px(this@MainActivity, (260.0f + p0.animatedValue as Int))
-                    sub.layoutParams = subLp
-                    contain.layoutParams = containLp
-
-                }
-
-            })
+            va.addUpdateListener { p0 ->
+                subLp.height = dp2px(this@MainActivity, 1.0f * p0!!.animatedValue as Int)
+                containLp.height = dp2px(this@MainActivity, (260.0f + p0.animatedValue as Int))
+                sub.layoutParams = subLp
+                contain.layoutParams = containLp
+            }
 
             va.addListener(object : Animator.AnimatorListener {
                 override fun onAnimationEnd(p0: Animator?) {
@@ -433,6 +362,76 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
         }
 
 
+    }
+
+    fun registerBoardCastReceiver() {
+
+        mainTopBroadcastReceiver = (object : BroadcastReceiver() {
+            override fun onReceive(p0: Context?, intent: Intent?) {
+                var containLp: ViewGroup.LayoutParams = contain.layoutParams
+                if (intent!!.getBooleanExtra("toTop", false) && oldContainHeight == containLp.height) {
+                    var va: ValueAnimator = ValueAnimator.ofInt(oldContainHeight, dp2px(this@MainActivity, 100.0f))
+                    va.duration = 200
+                    va.addUpdateListener { p0 ->
+                        containLp.height = p0!!.animatedValue as Int
+                        contain.layoutParams = containLp
+                    }
+                    va.addListener(object : Animator.AnimatorListener {
+                        override fun onAnimationEnd(p0: Animator?) {
+
+                            realTitle.visibility = View.VISIBLE
+                        }
+
+                        override fun onAnimationRepeat(p0: Animator?) {
+                        }
+
+                        override fun onAnimationCancel(p0: Animator?) {
+                        }
+
+                        override fun onAnimationStart(p0: Animator?) {
+
+                            coverBg.visibility = View.VISIBLE
+
+                        }
+                    })
+                    va.start()
+
+                } else if (!intent!!.getBooleanExtra("toTop", false) && dp2px(this@MainActivity, 100.0f) == containLp.height) {
+                    var from = intent.getStringExtra("from")
+                    Log.d("onScrolled", "from" + from)
+                    var va: ValueAnimator = ValueAnimator.ofInt(dp2px(this@MainActivity, 100.0f), oldContainHeight)
+                    va.duration = 200
+                    va.addUpdateListener { p0 ->
+                        containLp.height = p0!!.animatedValue as Int
+                        contain.layoutParams = containLp
+                    }
+                    va.addListener(object : Animator.AnimatorListener {
+                        override fun onAnimationEnd(p0: Animator?) {
+                            coverBg.visibility = View.GONE
+                        }
+
+                        override fun onAnimationRepeat(p0: Animator?) {
+                        }
+
+                        override fun onAnimationCancel(p0: Animator?) {
+                        }
+
+                        override fun onAnimationStart(p0: Animator?) {
+
+                            realTitle.visibility = View.GONE
+
+                        }
+                    })
+                    va.start()
+                }
+
+            }
+
+        })
+
+        val intentFilter = IntentFilter()
+        intentFilter.addAction("com.czq.kotlinlearning.mainTop")
+        registerReceiver(mainTopBroadcastReceiver, intentFilter)
     }
 
     override fun onDestroy() {

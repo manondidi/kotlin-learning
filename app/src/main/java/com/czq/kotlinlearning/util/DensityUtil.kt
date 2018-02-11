@@ -6,6 +6,7 @@ import android.content.Context
  * Created by czq on 2018/1/31.
  */
 class DensityUtil {
+
     companion object {
         fun px2dp(context: Context, pxValue: Float): Int {
             val scale = context.getResources().getDisplayMetrics().density

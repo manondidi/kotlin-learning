@@ -9,6 +9,7 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import com.czq.kotlinlearning.HomeScrollerCalculator
 import com.czq.kotlinlearning.R
 import com.czq.kotlinlearning.msg.AttendanceAdapter
 import com.czq.kotlinlearning.util.DensityUtil
@@ -24,9 +25,7 @@ import kotlinx.android.synthetic.main.fragment_attendance.*
  */
 class AttendanceFragment : Fragment() {
 
-
-    var totalDy = 0
-    var isScrollToTop=false
+    val mHomeScrollerCalculator= HomeScrollerCalculator()
     override fun onViewCreated(view: View?, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         var adapter = AttendanceAdapter()
@@ -37,30 +36,15 @@ class AttendanceFragment : Fragment() {
                 super.onScrollStateChanged(recyclerView, newState)
 
                 if (newState == RecyclerView.SCROLL_STATE_SETTLING) {
-                    val intent = Intent()
-                    intent.action = "com.czq.kotlinlearning.mainTop"
-                    intent.putExtra("from","attend")
-                    if (isScrollToTop) {
-                        intent.putExtra("toTop", true)
-                        activity.sendBroadcast(intent)
-
-                        Log.d("attend-onScrolled",""+totalDy+"    "+isScrollToTop)
-                    } else  if (totalDy >DensityUtil.dp2px(activity, -60.0f)&&!isScrollToTop){
-                        intent.putExtra("toTop", false)
-                        adapter.lastPosition=0
-                        activity.sendBroadcast(intent)
-
-                        Log.d("attend-onScrolled",""+totalDy+"    "+isScrollToTop)
-                    }
+                    mHomeScrollerCalculator.dealWhenStopDrag(activity)
 
                 }
 
             }
             override fun onScrolled(recyclerView: RecyclerView?, dx: Int, dy: Int) {
                 super.onScrolled(recyclerView, dx, dy)
-                var oldTotalDy=totalDy
-                totalDy-=dy
-                isScrollToTop=oldTotalDy>totalDy
+
+                mHomeScrollerCalculator.caculateDistance(dy)
             }
 
         })

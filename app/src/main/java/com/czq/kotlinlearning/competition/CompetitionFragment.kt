@@ -9,6 +9,7 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import com.czq.kotlinlearning.HomeScrollerCalculator
 import com.czq.kotlinlearning.R
 import com.czq.kotlinlearning.msg.CompetitionAdapter
 import com.czq.kotlinlearning.util.DensityUtil
@@ -24,8 +25,7 @@ import kotlinx.android.synthetic.main.fragment_competition.*
  */
 class CompetitionFragment : Fragment() {
 
-    var totalDy = 0
-    var isScrollToTop=false
+    val mHomeScrollerCalculator = HomeScrollerCalculator()
 
     override fun onViewCreated(view: View?, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -36,38 +36,21 @@ class CompetitionFragment : Fragment() {
             override fun onScrollStateChanged(recyclerView: RecyclerView?, newState: Int) {
                 super.onScrollStateChanged(recyclerView, newState)
 
-
                 if (newState == RecyclerView.SCROLL_STATE_SETTLING) {
-                    val intent = Intent()
-                    intent.putExtra("from","competition")
-                    intent.action = "com.czq.kotlinlearning.mainTop"
-                    if (isScrollToTop) {
-                        intent.putExtra("toTop", true)
-                        activity.sendBroadcast(intent)
-
-                        Log.d("competition-onScrolled",""+totalDy+"    "+isScrollToTop)
-                    } else  if (totalDy >DensityUtil.dp2px(activity, -60.0f)&&!isScrollToTop){
-                        intent.putExtra("toTop", false)
-                        adapter.lastPosition=0
-                        activity.sendBroadcast(intent)
-
-                        Log.d("competition-onScrolled",""+totalDy+"    "+isScrollToTop)
-                    }
+                    mHomeScrollerCalculator.dealWhenStopDrag(activity)
 
                 }
 
             }
+
             override fun onScrolled(recyclerView: RecyclerView?, dx: Int, dy: Int) {
                 super.onScrolled(recyclerView, dx, dy)
-                var oldTotalDy=totalDy
-                totalDy-=dy
-                isScrollToTop=oldTotalDy>totalDy
+                mHomeScrollerCalculator.caculateDistance(dy)
             }
 
         })
 
     }
-
 
 
     override fun onCreateView(inflater: LayoutInflater?, container: ViewGroup?,
