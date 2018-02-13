@@ -21,8 +21,8 @@ import android.widget.RelativeLayout
 import com.czq.kotlinlearning.attendance.AttendanceFragment
 import com.czq.kotlinlearning.competition.CompetitionFragment
 import com.czq.kotlinlearning.msg.MsgFragment
-import com.czq.kotlinlearning.util.DensityUtil.Companion.dp2px
-import com.czq.kotlinlearning.util.DensityUtil.Companion.px2dp
+import com.czq.kotlinlearning.util.DensityUtil.dp2px
+import com.czq.kotlinlearning.util.DensityUtil.px2dp
 import com.gyf.barlibrary.ImmersionBar
 import com.yalantis.contextmenu.lib.ContextMenuDialogFragment
 import com.yalantis.contextmenu.lib.MenuObject
@@ -46,7 +46,6 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
         oldContainHeight = contain.layoutParams.height
         mImmersionBar = ImmersionBar.with(this)
         mImmersionBar?.init()
-
         initViewPager()
         //这里要先渲染出他的大小 否则在移动的时候会计算错误
         msg.viewTreeObserver.addOnPreDrawListener(object : ViewTreeObserver.OnPreDrawListener {
@@ -168,6 +167,7 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
     }
 
     fun setIndctorMargin(marginLeft: Int) {
+
         var lp: RelativeLayout.LayoutParams = indctor.layoutParams as RelativeLayout.LayoutParams
         var va: ValueAnimator = ValueAnimator.ofInt(lp.leftMargin, marginLeft)
         va.duration = 200
@@ -192,8 +192,7 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
 
             competition -> viewPager.currentItem = 2
 
-            avtar ->
-                drawer.openDrawer(Gravity.LEFT)
+            avtar -> drawer.openDrawer(Gravity.LEFT)
 
             order -> {
 
@@ -377,7 +376,7 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
                     })
                     va.start()
 
-                } else if (!intent!!.getBooleanExtra("toTop", false) && dp2px(this@MainActivity, 100.0f) == containLp.height) {
+                } else if (!intent.getBooleanExtra("toTop", false) && dp2px(this@MainActivity, 100.0f) == containLp.height) {
                     var from = intent.getStringExtra("from")
                     Log.d("onScrolled", "from" + from)
                     var va: ValueAnimator = ValueAnimator.ofInt(dp2px(this@MainActivity, 100.0f), oldContainHeight)

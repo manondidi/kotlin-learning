@@ -6,6 +6,7 @@ import android.support.animation.SpringForce
 import android.view.View
 
 class ItemFlyInHelper {
+    //静态方法写法 用companion object  包裹
     companion object {
         //列表飞入动画
         fun flyIn(itemView: View) {
