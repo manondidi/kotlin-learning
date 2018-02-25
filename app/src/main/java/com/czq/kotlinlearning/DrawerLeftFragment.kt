@@ -33,6 +33,9 @@ class DrawerLeftFragment : Fragment() {
                 MenuModel(R.mipmap.my_sport, "我的运动"),
                 MenuModel(R.mipmap.phone_book, "通讯录"),
                 MenuModel(R.mipmap.schedule, "课程表"))
+//        var  mm=MenuModel()
+//        mm.leftIcon=1213;
+//        mm.text="hello";
         menuRecyclerView.adapter=adapter
 
 

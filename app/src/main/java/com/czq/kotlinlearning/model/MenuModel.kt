@@ -5,4 +5,4 @@ package com.czq.kotlinlearning.model
  */
 
 
-data class MenuModel(val leftIcon: Int, val text: String)
+data class MenuModel(var leftIcon: Int=0, var text: String?=null)

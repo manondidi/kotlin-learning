@@ -172,8 +172,8 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
         var lp: RelativeLayout.LayoutParams = indctor.layoutParams as RelativeLayout.LayoutParams
         var va: ValueAnimator = ValueAnimator.ofInt(lp.leftMargin, marginLeft)
         va.duration = 200
-        va.addUpdateListener { p0 ->
-            lp.leftMargin = p0!!.animatedValue as Int
+        va.addUpdateListener {
+            lp.leftMargin = it!!.animatedValue as Int
             indctor.layoutParams = lp
         }
         va.start()
@@ -214,11 +214,7 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
                     var subIndcotrLp: RelativeLayout.LayoutParams = indctorSub.layoutParams as RelativeLayout.LayoutParams
                     var va: ValueAnimator = ValueAnimator.ofInt(subIndcotrLp.leftMargin, 0)
                     va.duration = 200
-                    va.addUpdateListener(object : ValueAnimator.AnimatorUpdateListener {
-                        override fun onAnimationUpdate(p0: ValueAnimator?) {
-                            subIndcotrLp.leftMargin = p0!!.animatedValue as Int
-                        }
-                    })
+                    va.addUpdateListener {  subIndcotrLp.leftMargin = it!!.animatedValue as Int }
                     va.start()
 
                 } else {
@@ -248,7 +244,7 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
                     var subIndcotrLp: RelativeLayout.LayoutParams = indctorSub.layoutParams as RelativeLayout.LayoutParams
                     var va: ValueAnimator = ValueAnimator.ofInt(subIndcotrLp.leftMargin, getScreenWidth() / 2 - dp2px(this@MainActivity, 32.0f) + competition.measuredWidth * 2)
                     va.duration = 200
-                    va.addUpdateListener { p0 -> subIndcotrLp.leftMargin = p0!!.animatedValue as Int }
+                    va.addUpdateListener {   subIndcotrLp.leftMargin = it!!.animatedValue as Int }
                     va.start()
 
                 } else {
@@ -282,9 +278,9 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
 
             var va: ValueAnimator = ValueAnimator.ofInt(px2dp(this, subLp.height.toFloat()), 0)
             va.duration = 200
-            va.addUpdateListener { p0 ->
-                subLp.height = dp2px(this@MainActivity, 1.0f * p0!!.animatedValue as Int)
-                containLp.height = dp2px(this@MainActivity, (260.0f + p0.animatedValue as Int))
+            va.addUpdateListener {
+                subLp.height = dp2px(this@MainActivity, 1.0f * it!!.animatedValue as Int)
+                containLp.height = dp2px(this@MainActivity, (260.0f + it.animatedValue as Int))
                 sub.layoutParams = subLp
                 contain.layoutParams = containLp
             }
@@ -312,9 +308,9 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
             indctorSub.visibility = View.VISIBLE
             var va: ValueAnimator = ValueAnimator.ofInt(px2dp(this, subLp.height.toFloat()), 60)
             va.duration = 200
-            va.addUpdateListener { p0 ->
-                subLp.height = dp2px(this@MainActivity, 1.0f * p0!!.animatedValue as Int)
-                containLp.height = dp2px(this@MainActivity, (260.0f + p0.animatedValue as Int))
+            va.addUpdateListener {
+                subLp.height = dp2px(this@MainActivity, 1.0f * it!!.animatedValue as Int)
+                containLp.height = dp2px(this@MainActivity, (260.0f + it.animatedValue as Int))
                 sub.layoutParams = subLp
                 contain.layoutParams = containLp
             }
@@ -349,8 +345,8 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
                 if (intent!!.getBooleanExtra("toTop", false) && oldContainHeight == containLp.height) {
                     var va: ValueAnimator = ValueAnimator.ofInt(oldContainHeight, dp2px(this@MainActivity, 100.0f))
                     va.duration = 200
-                    va.addUpdateListener { p0 ->
-                        containLp.height = p0!!.animatedValue as Int
+                    va.addUpdateListener {
+                        containLp.height = it!!.animatedValue as Int
                         contain.layoutParams = containLp
                     }
                     va.addListener(object : Animator.AnimatorListener {
@@ -378,8 +374,8 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
                     Log.d("onScrolled", "from" + from)
                     var va: ValueAnimator = ValueAnimator.ofInt(dp2px(this@MainActivity, 100.0f), oldContainHeight)
                     va.duration = 200
-                    va.addUpdateListener { p0 ->
-                        containLp.height = p0!!.animatedValue as Int
+                    va.addUpdateListener {
+                        containLp.height = it!!.animatedValue as Int
                         contain.layoutParams = containLp
                     }
                     va.addListener(object : Animator.AnimatorListener {
