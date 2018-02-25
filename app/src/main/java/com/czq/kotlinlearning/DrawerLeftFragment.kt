@@ -8,6 +8,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import com.czq.kotlinlearning.model.MenuModel
+import com.czq.kotlinlearning.util.DensityUtil
 import kotlinx.android.synthetic.main.drawer_left.*
 
 
@@ -33,6 +34,8 @@ class DrawerLeftFragment : Fragment() {
                 MenuModel(R.mipmap.phone_book, "通讯录"),
                 MenuModel(R.mipmap.schedule, "课程表"))
         menuRecyclerView.adapter=adapter
+
+
 
     }
 

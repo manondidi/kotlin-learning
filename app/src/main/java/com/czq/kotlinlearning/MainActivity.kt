@@ -71,6 +71,7 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
         drawer.setScrimColor(Color.TRANSPARENT)
 
 
+
     }
 
     fun initViewPager() {
@@ -247,11 +248,7 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
                     var subIndcotrLp: RelativeLayout.LayoutParams = indctorSub.layoutParams as RelativeLayout.LayoutParams
                     var va: ValueAnimator = ValueAnimator.ofInt(subIndcotrLp.leftMargin, getScreenWidth() / 2 - dp2px(this@MainActivity, 32.0f) + competition.measuredWidth * 2)
                     va.duration = 200
-                    va.addUpdateListener(object : ValueAnimator.AnimatorUpdateListener {
-                        override fun onAnimationUpdate(p0: ValueAnimator?) {
-                            subIndcotrLp.leftMargin = p0!!.animatedValue as Int
-                        }
-                    })
+                    va.addUpdateListener { p0 -> subIndcotrLp.leftMargin = p0!!.animatedValue as Int }
                     va.start()
 
                 } else {
