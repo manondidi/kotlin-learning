@@ -208,7 +208,7 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
                     subRow1.visibility = View.VISIBLE
                     subRow2.visibility = View.INVISIBLE
                     line1.visibility = View.INVISIBLE
-                    openSubRow()
+                    dealSubRow()
                     indctorSub.visibility = View.VISIBLE
 
                     var subIndcotrLp: RelativeLayout.LayoutParams = indctorSub.layoutParams as RelativeLayout.LayoutParams
@@ -223,7 +223,7 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
                     subRow1.visibility = View.INVISIBLE
                     subRow2.visibility = View.INVISIBLE
                     line1.visibility = View.VISIBLE
-                    openSubRow()
+                    dealSubRow()
                     indctorSub.visibility = View.INVISIBLE
                 }
 
@@ -238,7 +238,7 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
                     subRow2.visibility = View.VISIBLE
                     subRow1.visibility = View.INVISIBLE
                     line1.visibility = View.INVISIBLE
-                    openSubRow()
+                    dealSubRow()
                     indctorSub.visibility = View.VISIBLE
 
                     var subIndcotrLp: RelativeLayout.LayoutParams = indctorSub.layoutParams as RelativeLayout.LayoutParams
@@ -253,7 +253,7 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
                     subRow1.visibility = View.INVISIBLE
                     subRow2.visibility = View.INVISIBLE
                     line1.visibility = View.VISIBLE
-                    openSubRow()
+                    dealSubRow()
                     indctorSub.visibility = View.INVISIBLE
                 }
             }
@@ -263,7 +263,7 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
 
 
     //处理中间tab子菜单的展示
-    fun openSubRow() {
+    fun dealSubRow() {
 
 
         var subLp: ViewGroup.LayoutParams = sub.layoutParams
